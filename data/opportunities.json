@@ -1,0 +1,290 @@
+[
+  {
+    "id": 1,
+    "company": "Microsoft",
+    "name": "Microsoft Explore Internship",
+    "sourceLink": "https://apply.careers.microsoft.com/careers",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Feb",
+    "quarter": "Qtr3 1st & 2nd yr; other link Qtr1 July-Sept",
+    "category": "Internship",
+    "additionalLinks": []
+  },
+  {
+    "id": 2,
+    "company": "Cisco",
+    "name": "Cisco Ideathon",
+    "sourceLink": "https://careers.cisco.com/global/en/india/etr/ideathon",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "June",
+    "quarter": "Qtr4 Qtr2 Oct-Dec",
+    "category": "Hackathon",
+    "additionalLinks": []
+  },
+  {
+    "id": 3,
+    "company": "Flipkart",
+    "name": "Flipkart GriD",
+    "sourceLink": "https://dsa.apnacollege.in/flipkart",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "June",
+    "quarter": "Qtr4 Qtr3 Jan-Mar",
+    "category": "Hackathon",
+    "additionalLinks": []
+  },
+  {
+    "id": 4,
+    "company": "JP Morgan",
+    "name": "Code for Good",
+    "sourceLink": "https://www.jpmorganchase.com/careers/explore-opportunities/programs/tfsg-hackathons",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "April",
+    "quarter": "Qtr4 Qtr4 Apr-June",
+    "category": "Hackathon",
+    "additionalLinks": []
+  },
+  {
+    "id": 5,
+    "company": "Amazon",
+    "name": "Hackon with Amazon",
+    "sourceLink": "https://veedaily19.substack.com/p/hackon-with-amazon-60-complete-guide",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "April-May",
+    "quarter": "Qtr4",
+    "category": "Hackathon",
+    "additionalLinks": []
+  },
+  {
+    "id": 6,
+    "company": "Infosys",
+    "name": "Infosys INSTEP",
+    "sourceLink": "https://www.infosys.com/instep.html",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Year Round",
+    "quarter": "All",
+    "category": "Internship",
+    "additionalLinks": []
+  },
+  {
+    "id": 7,
+    "company": "Google",
+    "name": "Google STEP Internship",
+    "sourceLink": "https://www.google.com/about/careers/applications/internships",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Sept-Oct",
+    "quarter": "Qtr1, Qtr2",
+    "category": "Internship",
+    "additionalLinks": []
+  },
+  {
+    "id": 8,
+    "company": "Juspay",
+    "name": "Juspay Hiring Challenge",
+    "sourceLink": "https://www.google.com/about/careers/applications/internships",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Aug",
+    "quarter": "Qtr1",
+    "category": "Hackathon",
+    "additionalLinks": []
+  },
+  {
+    "id": 9,
+    "company": "Accenture",
+    "name": "Tech Next Challenge",
+    "sourceLink": "https://technextchallenge.in/",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "July",
+    "quarter": "Qtr1",
+    "category": "Hackathon",
+    "additionalLinks": []
+  },
+  {
+    "id": 10,
+    "company": "Goldman Sachs",
+    "name": "Goldman Sachs India Hackathon",
+    "sourceLink": "https://www.goldmansachs.com/careers/programs-and-internships/hackathon-rules-2026.pdf",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "April",
+    "quarter": "Qtr4",
+    "category": "Hackathon",
+    "additionalLinks": []
+  },
+  {
+    "id": 11,
+    "company": "Colleges x Govt. of India",
+    "name": "Smart India Hackathon (SIH)",
+    "sourceLink": "https://www.sih.gov.in/",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Jun-Aug",
+    "quarter": "Qtr1",
+    "category": "Hackathon",
+    "additionalLinks": []
+  },
+  {
+    "id": 12,
+    "company": "Microsoft",
+    "name": "Microsoft ImagineCup",
+    "sourceLink": "https://imaginecup.microsoft.com/en-us",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Oct",
+    "quarter": "Qtr2",
+    "category": "Hackathon",
+    "additionalLinks": []
+  },
+  {
+    "id": 13,
+    "company": "Google",
+    "name": "Google Solutions Challenge",
+    "sourceLink": null,
+    "linkLabel": "Link",
+    "tentativeMonth": "Coming soon march",
+    "quarter": "Qtr3",
+    "category": "Hackathon",
+    "additionalLinks": []
+  },
+  {
+    "id": 14,
+    "company": "Meta",
+    "name": "Hackercup",
+    "sourceLink": "https://www.facebook.com/codingcompetitions/hacker-cup/2025",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "October",
+    "quarter": "Qtr2",
+    "category": "Hackathon",
+    "additionalLinks": []
+  },
+  {
+    "id": 15,
+    "company": "Microsoft",
+    "name": "Microsoft University Internship",
+    "sourceLink": "https://apply.careers.microsoft.com/careers",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "march",
+    "quarter": "Qtr3",
+    "category": "Internship",
+    "additionalLinks": []
+  },
+  {
+    "id": 16,
+    "company": "Amazon",
+    "name": "Amazon Internship",
+    "sourceLink": "https://www.amazon.jobs/content/en/career-programs/university/internships-for-students?",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Aug-Nov",
+    "quarter": "Qtr1, Qtr2 Jun-July for some off-campus",
+    "category": "Internship",
+    "additionalLinks": []
+  },
+  {
+    "id": 17,
+    "company": "Companies x Google",
+    "name": "Google Summer of Code (GSoC)",
+    "sourceLink": "https://summerofcode.withgoogle.com/",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Jan for org, Feb for stu",
+    "quarter": "Qtr3",
+    "category": "Internship",
+    "additionalLinks": []
+  },
+  {
+    "id": 18,
+    "company": "MLH Fellowship",
+    "name": "MLH Fellowship",
+    "sourceLink": "https://fellowship.mlh.com/",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Aug",
+    "quarter": "Qtr1 Not for India/APAC anymore",
+    "category": "Fellowship",
+    "additionalLinks": []
+  },
+  {
+    "id": 19,
+    "company": "Microsoft",
+    "name": "Microsoft Research",
+    "sourceLink": "https://www.microsoft.com/en-us/research/event/colm-2025/recruiting/",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Nov-Jan",
+    "quarter": "Qtr2",
+    "category": "Research",
+    "additionalLinks": []
+  },
+  {
+    "id": 20,
+    "company": "Google",
+    "name": "Google Student Researcher Program",
+    "sourceLink": "https://www.google.com/about/careers/applications/jobs/results/132362676918461126-student-researcher/",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Jan-Feb",
+    "quarter": "Qtr3",
+    "category": "Research",
+    "additionalLinks": []
+  },
+  {
+    "id": 21,
+    "company": "TCS",
+    "name": "TCS Research Internship",
+    "sourceLink": "https://www.tcs.com/careers/india/internship",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Jan-Feb",
+    "quarter": "Qtr3 about Internship",
+    "category": "Research",
+    "additionalLinks": [
+      "https://rentits.in/blog/tcs-research-summer-internship-2026"
+    ]
+  },
+  {
+    "id": 22,
+    "company": "Companies x Govt. of India",
+    "name": "PM Internship Scheme",
+    "sourceLink": "https://pminternship.mca.gov.in/login/",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Year Round",
+    "quarter": "All",
+    "category": "Internship",
+    "additionalLinks": []
+  },
+  {
+    "id": 23,
+    "company": "DRDO",
+    "name": "DRDO Student Project Training",
+    "sourceLink": "https://drdo.gov.in/drdo/sites/default/files/vacancy/advtDEAL27052026.pdf",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "for 2026 May-June",
+    "quarter": "Qtr4",
+    "category": "Internship",
+    "additionalLinks": []
+  },
+  {
+    "id": 24,
+    "company": "ISRO DoS / ISRO",
+    "name": "ISRO Student Project Training",
+    "sourceLink": "https://www.isro.gov.in/InternshipAndProjects.html",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "Year Round",
+    "quarter": "All",
+    "category": "Internship",
+    "additionalLinks": []
+  },
+  {
+    "id": 25,
+    "company": "Dept. of Telecommunications",
+    "name": "5G Innovation Hackathon",
+    "sourceLink": "https://eservices.dot.gov.in/5ghackathon/",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "March",
+    "quarter": "Qtr3",
+    "category": "Hackathon",
+    "additionalLinks": []
+  },
+  {
+    "id": 26,
+    "company": "Govt. of India",
+    "name": "Digital India Internship",
+    "sourceLink": "https://dii.nic.in/",
+    "linkLabel": "Visit Link",
+    "tentativeMonth": "April",
+    "quarter": "Qtr4",
+    "category": "Internship",
+    "additionalLinks": []
+  }
+]

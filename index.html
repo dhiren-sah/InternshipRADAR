@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SYNC — Internship Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080b12;
+      --panel: #10141d;
+      --panel2: #151a25;
+      --line: #252c3a;
+      --text: #f4f7fb;
+      --muted: #8d98aa;
+      --accent: #6c63ff;
+      --accent2: #8b85ff;
+      --green: #2bd576;
+      --yellow: #f3c74f;
+      --red: #ff6178;
+      --shadow: 0 18px 50px rgba(0, 0, 0, .25)
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 70% -20%, rgba(108, 99, 255, .12), transparent 30%), var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif
+    }
+
+    button,
+    input,
+    select {
+      font: inherit
+    }
+
+    button {
+      cursor: pointer
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh
+    }
+
+    .sidebar {
+      width: 240px;
+      border-right: 1px solid var(--line);
+      padding: 24px 16px;
+      position: fixed;
+      inset: 0 auto 0 0;
+      background: #0b0e15;
+      display: flex;
+      flex-direction: column;
+      z-index: 5
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 0 10px 30px
+    }
+
+    .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #7168ff, #4c46c9);
+      display: grid;
+      place-items: center;
+      font-weight: 800
+    }
+
+    .brand b {
+      font-size: 18px
+    }
+
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 2px
+    }
+
+    .nav {
+      display: grid;
+      gap: 7px
+    }
+
+    .nav button {
+      border: 0;
+      background: transparent;
+      color: #aeb7c8;
+      text-align: left;
+      padding: 12px 13px;
+      border-radius: 10px;
+      display: flex;
+      gap: 11px;
+      align-items: center
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      background: #171b28;
+      color: #fff
+    }
+
+    .nav button.active {
+      box-shadow: inset 3px 0 var(--accent)
+    }
+
+    .side-bottom {
+      margin-top: auto;
+      color: var(--muted);
+      padding: 14px;
+      font-size: 12px;
+      border-top: 1px solid var(--line)
+    }
+
+    .side-bottom strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 4px
+    }
+
+    main {
+      margin-left: 240px;
+      width: calc(100% - 240px);
+      padding: 30px 34px 45px
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 25px
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 26px
+    }
+
+    .title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center
+    }
+
+    .search {
+      width: min(320px, 35vw);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 11px 13px;
+      color: #fff;
+      outline: none
+    }
+
+    .search:focus {
+      border-color: var(--accent)
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: #fff;
+      border-radius: 9px;
+      padding: 10px 13px
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      border-color: var(--accent)
+    }
+
+    .btn:hover {
+      filter: brightness(1.1)
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px
+    }
+
+    .card {
+      background: linear-gradient(180deg, #111621, #0f131c);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 18px;
+      box-shadow: var(--shadow)
+    }
+
+    .card .label {
+      color: var(--muted);
+      font-size: 12px
+    }
+
+    .card .num {
+      font-size: 28px;
+      font-weight: 800;
+      margin-top: 9px
+    }
+
+    .card .hint {
+      font-size: 11px;
+      color: #6f7b8e;
+      margin-top: 5px
+    }
+
+    .focus {
+      margin: 22px 0;
+      background: linear-gradient(100deg, rgba(108, 99, 255, .18), rgba(16, 20, 29, .95));
+      border: 1px solid #35305f;
+      border-radius: 14px;
+      padding: 20px
+    }
+
+    .focus h2 {
+      margin: 0 0 5px;
+      font-size: 16px
+    }
+
+    .focus p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 12px
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 22px 0 12px
+    }
+
+    .section-head h2 {
+      font-size: 16px;
+      margin: 0
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .filters select {
+      background: var(--panel);
+      color: #dce2ec;
+      border: 1px solid var(--line);
+      padding: 9px 10px;
+      border-radius: 9px;
+      outline: none
+    }
+
+    .table-wrap {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: auto
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px
+    }
+
+    .table th {
+      font-size: 11px;
+      color: #778398;
+      text-align: left;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 600
+    }
+
+    .table td {
+      padding: 14px;
+      border-bottom: 1px solid #1e2430;
+      font-size: 12px
+    }
+
+    .table tr:last-child td {
+      border-bottom: 0
+    }
+
+    .company {
+      font-weight: 700
+    }
+
+    .opp {
+      color: #b8c0cf;
+      margin-top: 4px;
+      font-size: 11px
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 5px 8px;
+      border-radius: 20px;
+      background: #1b2030;
+      color: #bfc7d8;
+      font-size: 10px
+    }
+
+    .badge.green {
+      background: rgba(43, 213, 118, .1);
+      color: var(--green)
+    }
+
+    .badge.yellow {
+      background: rgba(243, 199, 79, .1);
+      color: var(--yellow)
+    }
+
+    .star {
+      border: 0;
+      background: transparent;
+      color: #596477;
+      font-size: 18px
+    }
+
+    .star.on {
+      color: #f5c84b
+    }
+
+    .action {
+      border: 1px solid var(--line);
+      background: #171c27;
+      color: #fff;
+      border-radius: 7px;
+      padding: 7px 9px;
+      font-size: 11px
+    }
+
+    .empty {
+      padding: 45px;
+      text-align: center;
+      color: var(--muted)
+    }
+
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .7);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 20
+    }
+
+    .modal {
+      width: min(560px, 100%);
+      background: #10141d;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow)
+    }
+
+    .modal h2 {
+      margin: 0 0 8px
+    }
+
+    .modal .meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 18px 0
+    }
+
+    .meta div {
+      background: #151a25;
+      border: 1px solid var(--line);
+      padding: 12px;
+      border-radius: 9px
+    }
+
+    .meta small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px
+    }
+
+    .meta b {
+      display: block;
+      margin-top: 5px;
+      font-size: 12px
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end
+    }
+
+    .close {
+      float: right;
+      border: 0;
+      background: transparent;
+      color: #8d98aa;
+      font-size: 22px
+    }
+
+    .mobile-menu {
+      display: none
+    }
+
+    @media(max-width:1050px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .top {
+        align-items: flex-start;
+        flex-direction: column
+      }
+
+      .top-actions {
+        width: 100%
+      }
+
+      .search {
+        width: 100%
+      }
+    }
+
+    @media(max-width:760px) {
+      .sidebar {
+        width: 72px;
+        padding: 16px 9px
+      }
+
+      .brand {
+        padding: 0 8px 25px
+      }
+
+      .brand div:not(.logo),
+      .nav button span,
+      .side-bottom {
+        display: none
+      }
+
+      .nav button {
+        justify-content: center
+      }
+
+      .nav button {
+        font-size: 0
+      }
+
+      .nav button:first-letter {
+        font-size: 16px
+      }
+
+      main {
+        margin-left: 72px;
+        width: calc(100% - 72px);
+        padding: 22px 16px
+      }
+
+      .grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .title h1 {
+        font-size: 21px
+      }
+
+      .filters select {
+        flex: 1
+      }
+
+      .focus {
+        padding: 16px
+      }
+    }
+
+    @media(max-width:500px) {
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .top-actions {
+        display: block
+      }
+
+      .search {
+        margin-bottom: 8px
+      }
+
+      .top-actions .btn {
+        width: 100%
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">S</div>
+        <div><b>SYNC</b><small>Internship Tracker</small></div>
+      </div>
+      <nav class="nav">
+        <button class="active" data-view="dashboard">▦ <span>Dashboard</span></button>
+        <button data-view="all">☷ <span>All Opportunities</span></button>
+        <button data-view="upcoming">◷ <span>Upcoming</span></button>
+        <button data-view="bookmarked">★ <span>Bookmarked</span></button>
+        <button data-view="applied">✓ <span>Applied</span></button>
+        <button data-view="calendar">▣ <span>Calendar</span></button>
+        <button data-view="settings">⚙ <span>Settings</span></button>
+      </nav>
+      <div class="side-bottom"><strong>SYNC v1.0</strong>Static • GitHub Pages Ready</div>
+    </aside>
+    <main>
+      <header class="top">
+        <div class="title">
+          <h1 id="pageTitle">Internship Dashboard</h1>
+          <p id="subtitle">Your daily command center for opportunity hunting.</p>
+        </div>
+        <div class="top-actions"><input id="search" class="search" placeholder="Search company or opportunity…"><button
+            class="btn" id="reset">Reset</button></div>
+      </header>
+      <section class="grid" id="stats"></section>
+      <section class="focus">
+        <h2>⚡ Today's Focus</h2>
+        <p id="focusText">Loading your opportunities…</p>
+      </section>
+      <section id="content"></section>
+    </main>
+  </div>
+  <div class="modal-bg" id="modalBg">
+    <div class="modal"><button class="close" id="closeModal">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+  <script>
+    let opportunities = [], view = "dashboard", searchTerm = "", filters = { category: "", month: "", quarter: "", status: "" };
+    const key = "sync_tracker_v1";
+    let state = JSON.parse(localStorage.getItem(key) || '{"bookmarks":[],"statuses":{}}');
+    const $ = s => document.querySelector(s);
+    const esc = s => String(s ?? "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+    function save() { localStorage.setItem(key, JSON.stringify(state)) }
+    function personalStatus(id) { return state.statuses[id] || "Not Applied" }
+    function isBook(id) { return state.bookmarks.includes(id) }
+    function filtered() {
+      let arr = opportunities.filter(o => {
+        const q = searchTerm.toLowerCase();
+        const hit = !q || o.company.toLowerCase().includes(q) || o.name.toLowerCase().includes(q);
+        const cat = !filters.category || o.category === filters.category;
+        const mon = !filters.month || o.tentativeMonth === filters.month;
+        const qua = !filters.quarter || o.quarter === filters.quarter;
+        const st = !filters.status || personalStatus(o.id) === filters.status;
+        return hit && cat && mon && qua && st;
+      });
+      if (view === "bookmarked") arr = arr.filter(o => isBook(o.id));
+      if (view === "applied") arr = arr.filter(o => personalStatus(o.id) !== "Not Applied");
+      if (view === "upcoming") arr = arr.filter(o => o.tentativeMonth !== "Year Round");
+      return arr;
+    }
+    function stats() {
+      const total = opportunities.length, book = opportunities.filter(o => isBook(o.id)).length, applied = opportunities.filter(o => personalStatus(o.id) !== "Not Applied").length;
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      const now = months[new Date().getMonth()];
+      const month = opportunities.filter(o => o.tentativeMonth.toLowerCase().includes(now.toLowerCase().slice(0, 3))).length;
+      return { total, book, applied, month };
+    }
+    function renderStats() {
+      const s = stats();
+      $("#stats").innerHTML = [
+        ["Total Opportunities", s.total, "Source opportunities"],
+        ["Upcoming", opportunities.filter(o => o.tentativeMonth !== "Year Round").length, "Month-based tracking"],
+        ["Applied", s.applied, "Your personal tracking"],
+        ["Bookmarked", s.book, "Saved for review"],
+      ].map(x => `<div class="card"><div class="label">${x[0]}</div><div class="num">${x[1]}</div><div class="hint">${x[2]}</div></div>`).join("");
+    }
+    function controls() {
+      const cats = [...new Set(opportunities.map(o => o.category))].sort();
+      const mons = [...new Set(opportunities.map(o => o.tentativeMonth))].sort();
+      const qs = [...new Set(opportunities.map(o => o.quarter))].sort();
+      return `<div class="filters">
+ <select id="cat"><option value="">All categories</option>${cats.map(x => `<option>${esc(x)}</option>`).join("")}</select>
+ <select id="mon"><option value="">All months</option>${mons.map(x => `<option>${esc(x)}</option>`).join("")}</select>
+ <select id="qua"><option value="">All quarters</option>${qs.map(x => `<option>${esc(x)}</option>`).join("")}</select>
+ <select id="st"><option value="">All personal status</option>${["Not Applied", "Interested", "Applied", "Interview", "Selected", "Rejected"].map(x => `<option>${x}</option>`).join("")}</select>
+ </div>`;
+    }
+    function table(arr) {
+      if (!arr.length) return `<div class="table-wrap"><div class="empty">No opportunities match the current filters.</div></div>`;
+      return `<div class="table-wrap"><table class="table"><thead><tr><th>COMPANY / OPPORTUNITY</th><th>CATEGORY</th><th>TENTATIVE</th><th>QUARTER</th><th>MY STATUS</th><th>★</th><th>ACTION</th></tr></thead><tbody>
+ ${arr.map(o => `<tr><td><div class="company">${esc(o.company)}</div><div class="opp">${esc(o.name)}</div></td>
+ <td><span class="badge">${esc(o.category)}</span></td><td>${esc(o.tentativeMonth)}</td><td>${esc(o.quarter)}</td>
+ <td><span class="badge ${personalStatus(o.id) === "Applied" ? "green" : ""}">${personalStatus(o.id)}</span></td>
+ <td><button class="star ${isBook(o.id) ? "on" : ""}" data-star="${o.id}">★</button></td>
+ <td><button class="action" data-open="${o.id}">View Details</button></td></tr>`).join("")}</tbody></table></div>`;
+    }
+    function render() {
+      renderStats();
+      const titles = { dashboard: ["Internship Dashboard", "Your daily command center for opportunity hunting."], all: ["All Opportunities", "Browse and filter every tracked opportunity."], upcoming: ["Upcoming Opportunities", "Month-level and quarter-level opportunity planning."], bookmarked: ["Bookmarked", "Your saved opportunities for focused review."], applied: ["My Applications", "Track your personal application pipeline."], calendar: ["Opportunity Calendar", "Tentative timing from your source sheet; no dates invented."], settings: ["Settings", "Local-only preferences and tracking controls."] };
+      $("#pageTitle").textContent = titles[view][0]; $("#subtitle").textContent = titles[view][1];
+      const arr = filtered();
+      if (view === "settings") { $("#content").innerHTML = `<div class="card"><h2>Local Data</h2><p style="color:#8d98aa;font-size:13px">Bookmarks and application statuses are stored only in this browser using LocalStorage.</p><button class="btn" id="clearData">Clear My Tracking Data</button></div>`; }
+      else if (view === "calendar") {
+        $("#content").innerHTML = `<div class="section-head"><h2>Timing Overview</h2></div>${table(arr)}`;
+      } else {
+        $("#content").innerHTML = `<div class="section-head"><h2>${view === "dashboard" ? "Opportunity Monitor" : "Opportunity List"}</h2>${controls()}</div>${table(arr)}`;
+      }
+      const count = opportunities.filter(o => o.tentativeMonth.toLowerCase().includes(new Date().toLocaleString("en", { month: "short" }).toLowerCase())).length;
+      $("#focusText").textContent = `${count ? count + " opportunity entries match the current month. " : ""}Review upcoming items, update your personal status, and bookmark anything you want to revisit.`;
+      bind();
+    }
+    function bind() {
+      ["cat", "mon", "qua", "st"].forEach(id => { const el = $("#" + id); if (el) { const map = { cat: "category", mon: "month", qua: "quarter", st: "status" }; el.value = filters[map[id]]; el.onchange = e => { filters[map[id]] = e.target.value; render() } } });
+      document.querySelectorAll("[data-star]").forEach(b => b.onclick = () => { const id = +b.dataset.star; state.bookmarks = isBook(id) ? state.bookmarks.filter(x => x !== id) : [...state.bookmarks, id]; save(); render() });
+      document.querySelectorAll("[data-open]").forEach(b => b.onclick = () => openModal(+b.dataset.open));
+      const clear = $("#clearData"); if (clear) clear.onclick = () => { if (confirm("Clear bookmarks and application tracking?")) { state = { bookmarks: [], statuses: {} }; save(); render() } };
+    }
+    function openModal(id) {
+      const o = opportunities.find(x => x.id === id); if (!o) return;
+      $("#modalContent").innerHTML = `<span class="badge">${esc(o.category)}</span><h2>${esc(o.name)}</h2><p style="color:#8d98aa;margin:0">${esc(o.company)}</p>
+ <div class="meta"><div><small>Tentative Month</small><b>${esc(o.tentativeMonth)}</b></div><div><small>Quarter</small><b>${esc(o.quarter)}</b></div><div><small>My Status</small><b>${personalStatus(o.id)}</b></div><div><small>Source Link</small><b>${o.sourceLink ? "Available" : "Not provided"}</b></div></div>
+ <div style="margin-bottom:15px"><label style="color:#8d98aa;font-size:11px">PERSONAL STATUS</label><select id="modalStatus" style="display:block;margin-top:7px;width:100%;background:#151a25;color:#fff;border:1px solid #252c3a;padding:10px;border-radius:8px">${["Not Applied", "Interested", "Applied", "Interview", "Selected", "Rejected"].map(s => `<option ${s === personalStatus(o.id) ? "selected" : ""}>${s}</option>`).join("")}</select></div>
+ <div class="modal-actions"><button class="btn" id="modalBook">${isBook(o.id) ? "Remove Bookmark" : "Bookmark"}</button>${o.sourceLink ? `<a class="btn primary" href="${esc(o.sourceLink)}" target="_blank" rel="noopener">Visit Opportunity</a>` : `<button class="btn" disabled>Link Not Available</button>`}${(o.additionalLinks || []).map((u, i) => `<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">Additional Link ${i + 1}</a>`).join("")}</div>`;
+      $("#modalBg").style.display = "flex";
+      $("#modalStatus").onchange = e => { state.statuses[o.id] = e.target.value; save(); render(); openModal(id) };
+      $("#modalBook").onclick = () => { state.bookmarks = isBook(id) ? state.bookmarks.filter(x => x !== id) : [...state.bookmarks, id]; save(); render(); openModal(id) };
+    }
+    $("#closeModal").onclick = () => $("#modalBg").style.display = "none"; $("#modalBg").onclick = e => { if (e.target.id === "modalBg") $("#modalBg").style.display = "none" };
+    $("#search").oninput = e => { searchTerm = e.target.value; render() }; $("#reset").onclick = () => { searchTerm = ""; filters = { category: "", month: "", quarter: "", status: "" }; $("#search").value = ""; render() };
+    document.querySelectorAll(".nav button").forEach(b => b.onclick = () => { document.querySelectorAll(".nav button").forEach(x => x.classList.remove("active")); b.classList.add("active"); view = b.dataset.view; render() });
+    fetch("data/opportunities.json").then(r => r.json()).then(d => { opportunities = d; render() }).catch(() => { $("#content").innerHTML = '<div class="card">Could not load opportunity data. Make sure the site is opened through GitHub Pages or a local web server.</div>' });
+  </script>
+</body>
+
+</html>
