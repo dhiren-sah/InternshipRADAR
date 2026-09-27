@@ -1,657 +1,3813 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>SYNC — Internship Tracker</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
+    /* =========================================================
+       ROOT
+    ========================================================= */
+
     :root {
-      --bg: #080b12;
-      --panel: #10141d;
-      --panel2: #151a25;
-      --line: #252c3a;
-      --text: #f4f7fb;
-      --muted: #8d98aa;
-      --accent: #6c63ff;
-      --accent2: #8b85ff;
-      --green: #2bd576;
-      --yellow: #f3c74f;
+      --bg: #070a10;
+      --bg-soft: #0b0f17;
+      --panel: #10151f;
+      --panel-2: #141a25;
+      --panel-3: #18202d;
+
+      --border: #252d3b;
+      --border-soft: #1c2430;
+
+      --text: #f5f7fb;
+      --text-soft: #c6cedb;
+      --muted: #8792a5;
+
+      --primary: #695cff;
+      --primary-light: #8177ff;
+
+      --blue: #3182ff;
+      --green: #27d477;
+      --yellow: #f4c64e;
       --red: #ff6178;
-      --shadow: 0 18px 50px rgba(0, 0, 0, .25)
+      --purple: #b36cff;
+
+      --radius: 14px;
+      --radius-small: 9px;
+
+      --shadow:
+        0 18px 50px rgba(0, 0, 0, 0.25);
+
+      --transition: 0.2s ease;
     }
 
+    /* =========================================================
+       RESET
+    ========================================================= */
+
     * {
-      box-sizing: border-box
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      margin: 0;
-      background: radial-gradient(circle at 70% -20%, rgba(108, 99, 255, .12), transparent 30%), var(--bg);
+      min-height: 100vh;
+      background:
+        radial-gradient(
+          circle at 70% -20%,
+          rgba(105, 92, 255, 0.13),
+          transparent 30%
+        ),
+        var(--bg);
+
       color: var(--text);
-      font-family: Inter, system-ui, sans-serif
+      font-family: "Inter", sans-serif;
+      overflow-x: hidden;
     }
 
     button,
     input,
     select {
-      font: inherit
+      font: inherit;
     }
 
     button {
-      cursor: pointer
+      cursor: pointer;
     }
 
-    .app {
-      display: flex;
-      min-height: 100vh
+    a {
+      color: inherit;
+      text-decoration: none;
     }
+
+    /* =========================================================
+       DESKTOP APP
+    ========================================================= */
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
 
     .sidebar {
       width: 240px;
-      border-right: 1px solid var(--line);
-      padding: 24px 16px;
+      min-width: 240px;
+
       position: fixed;
-      inset: 0 auto 0 0;
-      background: #0b0e15;
+      left: 0;
+      top: 0;
+      bottom: 0;
+
+      z-index: 100;
+
+      background: #090d14;
+      border-right: 1px solid var(--border);
+
+      padding: 24px 16px;
+
       display: flex;
       flex-direction: column;
-      z-index: 5
     }
 
     .brand {
       display: flex;
-      gap: 12px;
       align-items: center;
-      padding: 0 10px 30px
+      gap: 12px;
+
+      padding: 0 10px 30px;
     }
 
-    .logo {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
-      background: linear-gradient(135deg, #7168ff, #4c46c9);
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+
+      border-radius: 12px;
+
       display: grid;
       place-items: center;
-      font-weight: 800
+
+      font-size: 18px;
+      font-weight: 800;
+
+      background:
+        linear-gradient(
+          135deg,
+          #776dff,
+          #4d45c9
+        );
+
+      box-shadow:
+        0 8px 25px rgba(105, 92, 255, 0.25);
     }
 
-    .brand b {
-      font-size: 18px
+    .brand-name {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
     }
 
-    .brand small {
-      display: block;
-      color: var(--muted);
+    .brand-subtitle {
+      margin-top: 2px;
+
       font-size: 10px;
-      margin-top: 2px
-    }
-
-    .nav {
-      display: grid;
-      gap: 7px
-    }
-
-    .nav button {
-      border: 0;
-      background: transparent;
-      color: #aeb7c8;
-      text-align: left;
-      padding: 12px 13px;
-      border-radius: 10px;
-      display: flex;
-      gap: 11px;
-      align-items: center
-    }
-
-    .nav button:hover,
-    .nav button.active {
-      background: #171b28;
-      color: #fff
-    }
-
-    .nav button.active {
-      box-shadow: inset 3px 0 var(--accent)
-    }
-
-    .side-bottom {
-      margin-top: auto;
       color: var(--muted);
-      padding: 14px;
-      font-size: 12px;
-      border-top: 1px solid var(--line)
     }
 
-    .side-bottom strong {
-      color: #fff;
-      display: block;
-      margin-bottom: 4px
+    .desktop-nav {
+      display: grid;
+      gap: 6px;
     }
+
+    .desktop-nav button {
+      width: 100%;
+
+      border: none;
+      background: transparent;
+
+      color: #aab4c5;
+
+      text-align: left;
+
+      padding: 12px 13px;
+
+      border-radius: 10px;
+
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      transition: var(--transition);
+    }
+
+    .desktop-nav button:hover {
+      background: #151a25;
+      color: white;
+    }
+
+    .desktop-nav button.active {
+      background: #19152f;
+      color: white;
+
+      box-shadow:
+        inset 3px 0 var(--primary);
+    }
+
+    .side-footer {
+      margin-top: auto;
+
+      border-top: 1px solid var(--border);
+
+      padding: 15px 12px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+    .side-footer strong {
+      display: block;
+      color: white;
+      margin-bottom: 4px;
+    }
+
+    /* =========================================================
+       MAIN
+    ========================================================= */
 
     main {
-      margin-left: 240px;
       width: calc(100% - 240px);
-      padding: 30px 34px 45px
+
+      margin-left: 240px;
+
+      padding: 30px 34px 50px;
     }
 
-    .top {
+    /* =========================================================
+       TOP HEADER
+    ========================================================= */
+
+    .top-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       gap: 20px;
-      margin-bottom: 25px
+
+      margin-bottom: 25px;
     }
 
-    .title h1 {
-      margin: 0;
-      font-size: 26px
+    .page-title h1 {
+      font-size: 27px;
+      font-weight: 800;
     }
 
-    .title p {
-      margin: 6px 0 0;
+    .page-title p {
       color: var(--muted);
-      font-size: 13px
+      font-size: 13px;
+      margin-top: 6px;
     }
 
-    .top-actions {
+    .desktop-search-area {
       display: flex;
-      gap: 10px;
-      align-items: center
+      align-items: center;
+      gap: 9px;
     }
 
-    .search {
-      width: min(320px, 35vw);
+    .search-input {
+      width: 320px;
+
       background: var(--panel);
-      border: 1px solid var(--line);
+
+      border: 1px solid var(--border);
+
+      color: white;
+
       border-radius: 10px;
+
       padding: 11px 13px;
-      color: #fff;
-      outline: none
+
+      outline: none;
+
+      transition: var(--transition);
     }
 
-    .search:focus {
-      border-color: var(--accent)
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(105, 92, 255, 0.1);
     }
+
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
 
     .btn {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      color: #fff;
-      border-radius: 9px;
-      padding: 10px 13px
-    }
+      border: 1px solid var(--border);
 
-    .btn.primary {
-      background: var(--accent);
-      border-color: var(--accent)
+      background: var(--panel);
+
+      color: white;
+
+      border-radius: 9px;
+
+      padding: 10px 13px;
+
+      transition: var(--transition);
     }
 
     .btn:hover {
-      filter: brightness(1.1)
+      filter: brightness(1.12);
     }
 
-    .grid {
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .btn-blue {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    /* =========================================================
+       STATS
+    ========================================================= */
+
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px
+
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+      gap: 14px;
     }
 
-    .card {
-      background: linear-gradient(180deg, #111621, #0f131c);
-      border: 1px solid var(--line);
-      border-radius: 13px;
+    .stat-card {
+      min-height: 125px;
+
       padding: 18px;
-      box-shadow: var(--shadow)
+
+      border-radius: var(--radius);
+
+      background:
+        linear-gradient(
+          180deg,
+          #111722,
+          #0e131c
+        );
+
+      border: 1px solid var(--border);
+
+      box-shadow: var(--shadow);
     }
 
-    .card .label {
+    .stat-label {
       color: var(--muted);
-      font-size: 12px
+      font-size: 12px;
     }
 
-    .card .num {
+    .stat-number {
+      margin-top: 9px;
+
       font-size: 28px;
       font-weight: 800;
-      margin-top: 9px
     }
 
-    .card .hint {
+    .stat-description {
+      margin-top: 5px;
+
+      color: #68758a;
       font-size: 11px;
-      color: #6f7b8e;
-      margin-top: 5px
     }
 
-    .focus {
-      margin: 22px 0;
-      background: linear-gradient(100deg, rgba(108, 99, 255, .18), rgba(16, 20, 29, .95));
-      border: 1px solid #35305f;
-      border-radius: 14px;
-      padding: 20px
+    /* =========================================================
+       TODAY'S FOCUS
+    ========================================================= */
+
+    .focus-section {
+      margin-top: 22px;
+
+      padding: 20px;
+
+      border-radius: var(--radius);
+
+      border: 1px solid #302b5d;
+
+      background:
+        linear-gradient(
+          100deg,
+          rgba(105, 92, 255, 0.16),
+          rgba(16, 21, 31, 0.95)
+        );
     }
 
-    .focus h2 {
-      margin: 0 0 5px;
-      font-size: 16px
-    }
-
-    .focus p {
-      color: var(--muted);
-      margin: 0;
-      font-size: 12px
-    }
-
-    .section-head {
+    .focus-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 22px 0 12px
+
+      margin-bottom: 15px;
     }
 
-    .section-head h2 {
+    .focus-header h2 {
       font-size: 16px;
-      margin: 0
     }
+
+    .focus-header p {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .focus-items {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 10px;
+    }
+
+    .focus-item {
+      padding: 13px;
+
+      background: rgba(10, 14, 22, 0.65);
+
+      border: 1px solid var(--border);
+
+      border-radius: 10px;
+    }
+
+    .focus-item-company {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .focus-item-name {
+      margin-top: 5px;
+
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .focus-item-meta {
+      margin-top: 8px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    /* =========================================================
+       SECTION
+    ========================================================= */
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 15px;
+
+      margin: 25px 0 12px;
+    }
+
+    .section-header h2 {
+      font-size: 16px;
+    }
+
+    /* =========================================================
+       FILTERS
+    ========================================================= */
 
     .filters {
       display: flex;
+      align-items: center;
       gap: 8px;
-      flex-wrap: wrap
+      flex-wrap: wrap;
     }
 
-    .filters select {
+    .filter-select {
       background: var(--panel);
-      color: #dce2ec;
-      border: 1px solid var(--line);
-      padding: 9px 10px;
+
+      color: var(--text-soft);
+
+      border: 1px solid var(--border);
+
       border-radius: 9px;
-      outline: none
+
+      padding: 9px 10px;
+
+      outline: none;
+
+      min-width: 130px;
     }
 
-    .table-wrap {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      overflow: auto
-    }
+    /* =========================================================
+       DESKTOP TABLE
+    ========================================================= */
 
-    .table {
+    .table-wrapper {
       width: 100%;
+
+      overflow-x: auto;
+
+      border-radius: var(--radius);
+
+      border: 1px solid var(--border);
+
+      background: var(--panel);
+    }
+
+    .opportunity-table {
+      width: 100%;
+
+      min-width: 900px;
+
       border-collapse: collapse;
-      min-width: 900px
     }
 
-    .table th {
-      font-size: 11px;
-      color: #778398;
+    .opportunity-table th {
+      padding: 14px;
+
       text-align: left;
+
+      color: #778397;
+
+      font-size: 10px;
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .opportunity-table td {
       padding: 14px;
-      border-bottom: 1px solid var(--line);
-      font-weight: 600
+
+      font-size: 12px;
+
+      border-bottom: 1px solid #1c2430;
     }
 
-    .table td {
-      padding: 14px;
-      border-bottom: 1px solid #1e2430;
-      font-size: 12px
+    .opportunity-table tr:last-child td {
+      border-bottom: none;
     }
 
-    .table tr:last-child td {
-      border-bottom: 0
+    .company-name {
+      font-weight: 700;
     }
 
-    .company {
-      font-weight: 700
-    }
+    .opportunity-name {
+      color: #aeb8c8;
 
-    .opp {
-      color: #b8c0cf;
+      font-size: 11px;
+
       margin-top: 4px;
-      font-size: 11px
     }
+
+    /* =========================================================
+       BADGES
+    ========================================================= */
 
     .badge {
       display: inline-flex;
+
+      align-items: center;
+
       padding: 5px 8px;
+
       border-radius: 20px;
-      background: #1b2030;
-      color: #bfc7d8;
-      font-size: 10px
+
+      background: #1b2130;
+
+      color: #c7cfdd;
+
+      font-size: 10px;
+
+      white-space: nowrap;
     }
 
-    .badge.green {
-      background: rgba(43, 213, 118, .1);
-      color: var(--green)
+    .badge-green {
+      background: rgba(39, 212, 119, 0.1);
+      color: var(--green);
     }
 
-    .badge.yellow {
-      background: rgba(243, 199, 79, .1);
-      color: var(--yellow)
+    .badge-yellow {
+      background: rgba(244, 198, 78, 0.1);
+      color: var(--yellow);
     }
 
-    .star {
-      border: 0;
+    .badge-purple {
+      background: rgba(179, 108, 255, 0.1);
+      color: var(--purple);
+    }
+
+    /* =========================================================
+       BOOKMARK
+    ========================================================= */
+
+    .bookmark-button {
+      border: none;
+
       background: transparent;
-      color: #596477;
-      font-size: 18px
+
+      color: #5e6a7d;
+
+      font-size: 18px;
+
+      transition: var(--transition);
     }
 
-    .star.on {
-      color: #f5c84b
+    .bookmark-button.active {
+      color: var(--yellow);
     }
 
-    .action {
-      border: 1px solid var(--line);
-      background: #171c27;
-      color: #fff;
-      border-radius: 7px;
-      padding: 7px 9px;
-      font-size: 11px
+    .bookmark-button:hover {
+      transform: scale(1.12);
     }
 
-    .empty {
-      padding: 45px;
-      text-align: center;
-      color: var(--muted)
-    }
+    /* =========================================================
+       MOBILE OPPORTUNITY CARDS
+    ========================================================= */
 
-    .modal-bg {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, .7);
-      backdrop-filter: blur(5px);
+    .mobile-opportunities {
       display: none;
+    }
+
+    .mobile-opportunity-card {
+      background:
+        linear-gradient(
+          180deg,
+          #111823,
+          #0d131c
+        );
+
+      border: 1px solid var(--border);
+
+      border-radius: 15px;
+
+      padding: 15px;
+
+      margin-bottom: 11px;
+
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.18);
+    }
+
+    .mobile-card-top {
+      display: flex;
+
+      align-items: flex-start;
+
+      justify-content: space-between;
+
+      gap: 10px;
+    }
+
+    .mobile-company-row {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+    }
+
+    .company-logo-placeholder {
+      width: 38px;
+      height: 38px;
+
+      border-radius: 10px;
+
+      display: grid;
+      place-items: center;
+
+      background: #1c2430;
+
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .mobile-company {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .mobile-opportunity-name {
+      margin-top: 3px;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      line-height: 1.35;
+    }
+
+    .mobile-category {
+      margin-top: 10px;
+    }
+
+    .mobile-meta {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+      margin-top: 10px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    .mobile-card-button {
+      width: 100%;
+
+      margin-top: 13px;
+
+      border: none;
+
+      background:
+        linear-gradient(
+          90deg,
+          #6257ed,
+          #756bff
+        );
+
+      color: white;
+
+      border-radius: 8px;
+
+      padding: 10px;
+
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* =========================================================
+       EMPTY
+    ========================================================= */
+
+    .empty-state {
+      padding: 45px 20px;
+
+      text-align: center;
+
+      color: var(--muted);
+    }
+
+    /* =========================================================
+       MODAL
+    ========================================================= */
+
+    .modal-overlay {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 500;
+
+      display: none;
+
       align-items: center;
       justify-content: center;
+
       padding: 20px;
-      z-index: 20
+
+      background: rgba(0, 0, 0, 0.75);
+
+      backdrop-filter: blur(7px);
+    }
+
+    .modal-overlay.show {
+      display: flex;
     }
 
     .modal {
       width: min(560px, 100%);
-      background: #10141d;
-      border: 1px solid var(--line);
-      border-radius: 16px;
+
+      max-height: 90vh;
+
+      overflow-y: auto;
+
       padding: 24px;
-      box-shadow: var(--shadow)
+
+      border-radius: 17px;
+
+      border: 1px solid var(--border);
+
+      background: #10151f;
+
+      box-shadow: var(--shadow);
+    }
+
+    .modal-close {
+      float: right;
+
+      border: none;
+
+      background: transparent;
+
+      color: var(--muted);
+
+      font-size: 24px;
     }
 
     .modal h2 {
-      margin: 0 0 8px
+      margin-top: 12px;
+
+      font-size: 21px;
     }
 
-    .modal .meta {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin: 18px 0
-    }
-
-    .meta div {
-      background: #151a25;
-      border: 1px solid var(--line);
-      padding: 12px;
-      border-radius: 9px
-    }
-
-    .meta small {
-      display: block;
+    .modal-company {
       color: var(--muted);
-      font-size: 10px
+
+      margin-top: 5px;
+
+      font-size: 13px;
     }
 
-    .meta b {
+    .modal-meta {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 10px;
+
+      margin: 20px 0;
+    }
+
+    .modal-meta-item {
+      padding: 12px;
+
+      border-radius: 9px;
+
+      background: var(--panel-2);
+
+      border: 1px solid var(--border);
+    }
+
+    .modal-meta-item small {
       display: block;
+
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    .modal-meta-item strong {
+      display: block;
+
       margin-top: 5px;
-      font-size: 12px
+
+      font-size: 12px;
+    }
+
+    .modal-status-label {
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    .modal-status {
+      width: 100%;
+
+      margin-top: 7px;
+
+      padding: 11px;
+
+      background: var(--panel-2);
+
+      color: white;
+
+      border: 1px solid var(--border);
+
+      border-radius: 9px;
+
+      outline: none;
     }
 
     .modal-actions {
       display: flex;
+
+      flex-wrap: wrap;
+
       gap: 8px;
-      justify-content: flex-end
+
+      margin-top: 18px;
     }
 
-    .close {
-      float: right;
-      border: 0;
-      background: transparent;
-      color: #8d98aa;
-      font-size: 22px
+    /* =========================================================
+       MOBILE HEADER
+    ========================================================= */
+
+    .mobile-header {
+      display: none;
+    }
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    .mobile-menu-overlay {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 300;
+
+      display: none;
+
+      background: rgba(0, 0, 0, 0.72);
+    }
+
+    .mobile-menu-overlay.show {
+      display: block;
     }
 
     .mobile-menu {
-      display: none
+      width: 82%;
+
+      max-width: 320px;
+
+      height: 100%;
+
+      padding: 25px 18px;
+
+      background: #0b1018;
+
+      border-right: 1px solid var(--border);
     }
 
-    @media(max-width:1050px) {
-      .grid {
-        grid-template-columns: repeat(2, 1fr)
+    .mobile-menu-brand {
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+
+      padding-bottom: 28px;
+    }
+
+    .mobile-menu-nav {
+      display: grid;
+
+      gap: 5px;
+    }
+
+    .mobile-menu-nav button {
+      border: none;
+
+      background: transparent;
+
+      color: #bac3d1;
+
+      text-align: left;
+
+      padding: 13px;
+
+      border-radius: 9px;
+    }
+
+    .mobile-menu-nav button.active,
+    .mobile-menu-nav button:hover {
+      background: #171d29;
+
+      color: white;
+    }
+
+    /* =========================================================
+       MOBILE FILTER DRAWER
+    ========================================================= */
+
+    .filter-drawer-overlay {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 400;
+
+      display: none;
+
+      align-items: flex-end;
+
+      background: rgba(0, 0, 0, 0.72);
+    }
+
+    .filter-drawer-overlay.show {
+      display: flex;
+    }
+
+    .filter-drawer {
+      width: 100%;
+
+      background: #0e141e;
+
+      border-radius: 20px 20px 0 0;
+
+      border: 1px solid var(--border);
+
+      padding: 20px;
+
+      box-shadow: 0 -15px 45px rgba(0, 0, 0, 0.35);
+    }
+
+    .filter-drawer-header {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 20px;
+    }
+
+    .filter-drawer-header h2 {
+      font-size: 17px;
+    }
+
+    .drawer-close {
+      border: none;
+
+      background: transparent;
+
+      color: var(--muted);
+
+      font-size: 22px;
+    }
+
+    .drawer-field {
+      margin-bottom: 13px;
+    }
+
+    .drawer-field label {
+      display: block;
+
+      color: var(--text-soft);
+
+      font-size: 11px;
+
+      margin-bottom: 7px;
+    }
+
+    .drawer-field select {
+      width: 100%;
+
+      background: var(--panel-2);
+
+      color: white;
+
+      border: 1px solid var(--border);
+
+      padding: 12px;
+
+      border-radius: 9px;
+
+      outline: none;
+    }
+
+    .drawer-actions {
+      display: grid;
+
+      gap: 9px;
+
+      margin-top: 18px;
+    }
+
+    /* =========================================================
+       MOBILE BOTTOM NAV
+    ========================================================= */
+
+    .mobile-bottom-nav {
+      display: none;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 1050px) {
+      .stats-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
       }
 
-      .top {
+      .top-header {
         align-items: flex-start;
-        flex-direction: column
+
+        flex-direction: column;
       }
 
-      .top-actions {
-        width: 100%
+      .desktop-search-area {
+        width: 100%;
       }
 
-      .search {
-        width: 100%
+      .search-input {
+        width: 100%;
+      }
+
+      .focus-items {
+        grid-template-columns: 1fr;
       }
     }
 
-    @media(max-width:760px) {
+    /* =========================================================
+       TABLET
+    ========================================================= */
+
+    @media (max-width: 760px) {
+
       .sidebar {
-        width: 72px;
-        padding: 16px 9px
-      }
-
-      .brand {
-        padding: 0 8px 25px
-      }
-
-      .brand div:not(.logo),
-      .nav button span,
-      .side-bottom {
-        display: none
-      }
-
-      .nav button {
-        justify-content: center
-      }
-
-      .nav button {
-        font-size: 0
-      }
-
-      .nav button:first-letter {
-        font-size: 16px
+        display: none;
       }
 
       main {
-        margin-left: 72px;
-        width: calc(100% - 72px);
-        padding: 22px 16px
+        width: 100%;
+
+        margin-left: 0;
+
+        padding:
+          78px
+          15px
+          90px;
       }
 
-      .grid {
-        grid-template-columns: 1fr 1fr
+      .desktop-search-area {
+        display: none;
       }
 
-      .title h1 {
-        font-size: 21px
+      .mobile-header {
+        position: fixed;
+
+        top: 0;
+        left: 0;
+        right: 0;
+
+        height: 64px;
+
+        z-index: 150;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        padding: 0 15px;
+
+        background:
+          rgba(8, 12, 18, 0.94);
+
+        backdrop-filter: blur(14px);
+
+        border-bottom: 1px solid var(--border);
       }
 
-      .filters select {
-        flex: 1
+      .mobile-header-left {
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
       }
 
-      .focus {
-        padding: 16px
+      .mobile-menu-button {
+        width: 35px;
+        height: 35px;
+
+        border: none;
+
+        background: transparent;
+
+        color: white;
+
+        font-size: 22px;
+      }
+
+      .mobile-logo {
+        font-size: 20px;
+        font-weight: 800;
+        color: #6f65ff;
+      }
+
+      .mobile-subtitle {
+        color: var(--muted);
+
+        font-size: 8px;
+
+        margin-top: 1px;
+      }
+
+      .mobile-header-right {
+        display: flex;
+
+        align-items: center;
+
+        gap: 13px;
+      }
+
+      .mobile-icon {
+        border: none;
+
+        background: transparent;
+
+        color: white;
+
+        font-size: 17px;
+      }
+
+      .mobile-avatar {
+        width: 29px;
+        height: 29px;
+
+        border-radius: 50%;
+
+        display: grid;
+        place-items: center;
+
+        background:
+          linear-gradient(
+            135deg,
+            #756bff,
+            #3c36a8
+          );
+
+        font-size: 10px;
+        font-weight: 700;
+      }
+
+      .page-title h1 {
+        font-size: 22px;
+      }
+
+      .page-title p {
+        font-size: 11px;
+      }
+
+      /* MOBILE STATS */
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 10px;
+      }
+
+      .stat-card {
+        min-height: 104px;
+
+        padding: 14px;
+      }
+
+      .stat-number {
+        font-size: 23px;
+      }
+
+      .stat-description {
+        font-size: 9px;
+      }
+
+      /* MOBILE FOCUS */
+
+      .focus-section {
+        padding: 15px;
+      }
+
+      .focus-header h2 {
+        font-size: 15px;
+      }
+
+      .focus-items {
+        gap: 8px;
+      }
+
+      .focus-item {
+        padding: 12px;
+      }
+
+      /* MOBILE TABLE OFF */
+
+      .table-wrapper {
+        display: none;
+      }
+
+      .mobile-opportunities {
+        display: block;
+      }
+
+      /* MOBILE SECTION */
+
+      .section-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        margin-top: 22px;
+      }
+
+      .filters {
+        width: 100%;
+      }
+
+      .desktop-filter {
+        display: none;
+      }
+
+      .mobile-filter-button {
+        display: flex;
+
+        width: 100%;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        background: var(--panel);
+
+        color: white;
+
+        border: 1px solid var(--border);
+
+        padding: 11px;
+
+        border-radius: 9px;
+      }
+
+      /* MOBILE BOTTOM NAV */
+
+      .mobile-bottom-nav {
+        position: fixed;
+
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        height: 67px;
+
+        z-index: 180;
+
+        display: grid;
+
+        grid-template-columns:
+          repeat(5, 1fr);
+
+        background:
+          rgba(9, 13, 20, 0.96);
+
+        backdrop-filter: blur(14px);
+
+        border-top: 1px solid var(--border);
+      }
+
+      .mobile-bottom-nav button {
+        border: none;
+
+        background: transparent;
+
+        color: #778398;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 4px;
+
+        font-size: 9px;
+      }
+
+      .mobile-bottom-nav button span {
+        font-size: 17px;
+      }
+
+      .mobile-bottom-nav button.active {
+        color: #43a5ff;
+      }
+
+      /* MOBILE MODAL */
+
+      .modal-overlay {
+        align-items: flex-end;
+
+        padding: 0;
+      }
+
+      .modal {
+        width: 100%;
+
+        max-height: 88vh;
+
+        border-radius:
+          20px
+          20px
+          0
+          0;
+
+        padding: 20px;
+      }
+
+      .modal-meta {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .modal-actions {
+        display: grid;
+
+        grid-template-columns: 1fr;
+      }
+
+      .modal-actions .btn,
+      .modal-actions a {
+        width: 100%;
+
+        text-align: center;
       }
     }
 
-    @media(max-width:500px) {
-      .grid {
-        grid-template-columns: 1fr
+    /* =========================================================
+       VERY SMALL MOBILE
+    ========================================================= */
+
+    @media (max-width: 390px) {
+
+      main {
+        padding-left: 12px;
+        padding-right: 12px;
       }
 
-      .top-actions {
-        display: block
+      .mobile-opportunity-card {
+        padding: 13px;
       }
 
-      .search {
-        margin-bottom: 8px
+      .mobile-opportunity-name {
+        font-size: 13px;
       }
 
-      .top-actions .btn {
-        width: 100%
+      .stat-card {
+        padding: 12px;
+      }
+
+      .stat-number {
+        font-size: 21px;
+      }
+
+      .focus-section {
+        padding: 13px;
+      }
+    }
+
+    /* =========================================================
+       DESKTOP MOBILE-ONLY ELEMENTS
+    ========================================================= */
+
+    @media (min-width: 761px) {
+      .mobile-filter-button {
+        display: none;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="logo">S</div>
-        <div><b>SYNC</b><small>Internship Tracker</small></div>
-      </div>
-      <nav class="nav">
-        <button class="active" data-view="dashboard">▦ <span>Dashboard</span></button>
-        <button data-view="all">☷ <span>All Opportunities</span></button>
-        <button data-view="upcoming">◷ <span>Upcoming</span></button>
-        <button data-view="bookmarked">★ <span>Bookmarked</span></button>
-        <button data-view="applied">✓ <span>Applied</span></button>
-        <button data-view="calendar">▣ <span>Calendar</span></button>
-        <button data-view="settings">⚙ <span>Settings</span></button>
-      </nav>
-      <div class="side-bottom"><strong>SYNC v1.0</strong>Static • GitHub Pages Ready</div>
-    </aside>
-    <main>
-      <header class="top">
-        <div class="title">
-          <h1 id="pageTitle">Internship Dashboard</h1>
-          <p id="subtitle">Your daily command center for opportunity hunting.</p>
-        </div>
-        <div class="top-actions"><input id="search" class="search" placeholder="Search company or opportunity…"><button
-            class="btn" id="reset">Reset</button></div>
-      </header>
-      <section class="grid" id="stats"></section>
-      <section class="focus">
-        <h2>⚡ Today's Focus</h2>
-        <p id="focusText">Loading your opportunities…</p>
-      </section>
-      <section id="content"></section>
-    </main>
-  </div>
-  <div class="modal-bg" id="modalBg">
-    <div class="modal"><button class="close" id="closeModal">×</button>
-      <div id="modalContent"></div>
-    </div>
-  </div>
-  <script>
-    let opportunities = [], view = "dashboard", searchTerm = "", filters = { category: "", month: "", quarter: "", status: "" };
-    const key = "sync_tracker_v1";
-    let state = JSON.parse(localStorage.getItem(key) || '{"bookmarks":[],"statuses":{}}');
-    const $ = s => document.querySelector(s);
-    const esc = s => String(s ?? "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
-    function save() { localStorage.setItem(key, JSON.stringify(state)) }
-    function personalStatus(id) { return state.statuses[id] || "Not Applied" }
-    function isBook(id) { return state.bookmarks.includes(id) }
-    function filtered() {
-      let arr = opportunities.filter(o => {
-        const q = searchTerm.toLowerCase();
-        const hit = !q || o.company.toLowerCase().includes(q) || o.name.toLowerCase().includes(q);
-        const cat = !filters.category || o.category === filters.category;
-        const mon = !filters.month || o.tentativeMonth === filters.month;
-        const qua = !filters.quarter || o.quarter === filters.quarter;
-        const st = !filters.status || personalStatus(o.id) === filters.status;
-        return hit && cat && mon && qua && st;
-      });
-      if (view === "bookmarked") arr = arr.filter(o => isBook(o.id));
-      if (view === "applied") arr = arr.filter(o => personalStatus(o.id) !== "Not Applied");
-      if (view === "upcoming") arr = arr.filter(o => o.tentativeMonth !== "Year Round");
-      return arr;
-    }
-    function stats() {
-      const total = opportunities.length, book = opportunities.filter(o => isBook(o.id)).length, applied = opportunities.filter(o => personalStatus(o.id) !== "Not Applied").length;
-      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      const now = months[new Date().getMonth()];
-      const month = opportunities.filter(o => o.tentativeMonth.toLowerCase().includes(now.toLowerCase().slice(0, 3))).length;
-      return { total, book, applied, month };
-    }
-    function renderStats() {
-      const s = stats();
-      $("#stats").innerHTML = [
-        ["Total Opportunities", s.total, "Source opportunities"],
-        ["Upcoming", opportunities.filter(o => o.tentativeMonth !== "Year Round").length, "Month-based tracking"],
-        ["Applied", s.applied, "Your personal tracking"],
-        ["Bookmarked", s.book, "Saved for review"],
-      ].map(x => `<div class="card"><div class="label">${x[0]}</div><div class="num">${x[1]}</div><div class="hint">${x[2]}</div></div>`).join("");
-    }
-    function controls() {
-      const cats = [...new Set(opportunities.map(o => o.category))].sort();
-      const mons = [...new Set(opportunities.map(o => o.tentativeMonth))].sort();
-      const qs = [...new Set(opportunities.map(o => o.quarter))].sort();
-      return `<div class="filters">
- <select id="cat"><option value="">All categories</option>${cats.map(x => `<option>${esc(x)}</option>`).join("")}</select>
- <select id="mon"><option value="">All months</option>${mons.map(x => `<option>${esc(x)}</option>`).join("")}</select>
- <select id="qua"><option value="">All quarters</option>${qs.map(x => `<option>${esc(x)}</option>`).join("")}</select>
- <select id="st"><option value="">All personal status</option>${["Not Applied", "Interested", "Applied", "Interview", "Selected", "Rejected"].map(x => `<option>${x}</option>`).join("")}</select>
- </div>`;
-    }
-    function table(arr) {
-      if (!arr.length) return `<div class="table-wrap"><div class="empty">No opportunities match the current filters.</div></div>`;
-      return `<div class="table-wrap"><table class="table"><thead><tr><th>COMPANY / OPPORTUNITY</th><th>CATEGORY</th><th>TENTATIVE</th><th>QUARTER</th><th>MY STATUS</th><th>★</th><th>ACTION</th></tr></thead><tbody>
- ${arr.map(o => `<tr><td><div class="company">${esc(o.company)}</div><div class="opp">${esc(o.name)}</div></td>
- <td><span class="badge">${esc(o.category)}</span></td><td>${esc(o.tentativeMonth)}</td><td>${esc(o.quarter)}</td>
- <td><span class="badge ${personalStatus(o.id) === "Applied" ? "green" : ""}">${personalStatus(o.id)}</span></td>
- <td><button class="star ${isBook(o.id) ? "on" : ""}" data-star="${o.id}">★</button></td>
- <td><button class="action" data-open="${o.id}">View Details</button></td></tr>`).join("")}</tbody></table></div>`;
-    }
-    function render() {
-      renderStats();
-      const titles = { dashboard: ["Internship Dashboard", "Your daily command center for opportunity hunting."], all: ["All Opportunities", "Browse and filter every tracked opportunity."], upcoming: ["Upcoming Opportunities", "Month-level and quarter-level opportunity planning."], bookmarked: ["Bookmarked", "Your saved opportunities for focused review."], applied: ["My Applications", "Track your personal application pipeline."], calendar: ["Opportunity Calendar", "Tentative timing from your source sheet; no dates invented."], settings: ["Settings", "Local-only preferences and tracking controls."] };
-      $("#pageTitle").textContent = titles[view][0]; $("#subtitle").textContent = titles[view][1];
-      const arr = filtered();
-      if (view === "settings") { $("#content").innerHTML = `<div class="card"><h2>Local Data</h2><p style="color:#8d98aa;font-size:13px">Bookmarks and application statuses are stored only in this browser using LocalStorage.</p><button class="btn" id="clearData">Clear My Tracking Data</button></div>`; }
-      else if (view === "calendar") {
-        $("#content").innerHTML = `<div class="section-head"><h2>Timing Overview</h2></div>${table(arr)}`;
-      } else {
-        $("#content").innerHTML = `<div class="section-head"><h2>${view === "dashboard" ? "Opportunity Monitor" : "Opportunity List"}</h2>${controls()}</div>${table(arr)}`;
-      }
-      const count = opportunities.filter(o => o.tentativeMonth.toLowerCase().includes(new Date().toLocaleString("en", { month: "short" }).toLowerCase())).length;
-      $("#focusText").textContent = `${count ? count + " opportunity entries match the current month. " : ""}Review upcoming items, update your personal status, and bookmark anything you want to revisit.`;
-      bind();
-    }
-    function bind() {
-      ["cat", "mon", "qua", "st"].forEach(id => { const el = $("#" + id); if (el) { const map = { cat: "category", mon: "month", qua: "quarter", st: "status" }; el.value = filters[map[id]]; el.onchange = e => { filters[map[id]] = e.target.value; render() } } });
-      document.querySelectorAll("[data-star]").forEach(b => b.onclick = () => { const id = +b.dataset.star; state.bookmarks = isBook(id) ? state.bookmarks.filter(x => x !== id) : [...state.bookmarks, id]; save(); render() });
-      document.querySelectorAll("[data-open]").forEach(b => b.onclick = () => openModal(+b.dataset.open));
-      const clear = $("#clearData"); if (clear) clear.onclick = () => { if (confirm("Clear bookmarks and application tracking?")) { state = { bookmarks: [], statuses: {} }; save(); render() } };
-    }
-    function openModal(id) {
-      const o = opportunities.find(x => x.id === id); if (!o) return;
-      $("#modalContent").innerHTML = `<span class="badge">${esc(o.category)}</span><h2>${esc(o.name)}</h2><p style="color:#8d98aa;margin:0">${esc(o.company)}</p>
- <div class="meta"><div><small>Tentative Month</small><b>${esc(o.tentativeMonth)}</b></div><div><small>Quarter</small><b>${esc(o.quarter)}</b></div><div><small>My Status</small><b>${personalStatus(o.id)}</b></div><div><small>Source Link</small><b>${o.sourceLink ? "Available" : "Not provided"}</b></div></div>
- <div style="margin-bottom:15px"><label style="color:#8d98aa;font-size:11px">PERSONAL STATUS</label><select id="modalStatus" style="display:block;margin-top:7px;width:100%;background:#151a25;color:#fff;border:1px solid #252c3a;padding:10px;border-radius:8px">${["Not Applied", "Interested", "Applied", "Interview", "Selected", "Rejected"].map(s => `<option ${s === personalStatus(o.id) ? "selected" : ""}>${s}</option>`).join("")}</select></div>
- <div class="modal-actions"><button class="btn" id="modalBook">${isBook(o.id) ? "Remove Bookmark" : "Bookmark"}</button>${o.sourceLink ? `<a class="btn primary" href="${esc(o.sourceLink)}" target="_blank" rel="noopener">Visit Opportunity</a>` : `<button class="btn" disabled>Link Not Available</button>`}${(o.additionalLinks || []).map((u, i) => `<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">Additional Link ${i + 1}</a>`).join("")}</div>`;
-      $("#modalBg").style.display = "flex";
-      $("#modalStatus").onchange = e => { state.statuses[o.id] = e.target.value; save(); render(); openModal(id) };
-      $("#modalBook").onclick = () => { state.bookmarks = isBook(id) ? state.bookmarks.filter(x => x !== id) : [...state.bookmarks, id]; save(); render(); openModal(id) };
-    }
-    $("#closeModal").onclick = () => $("#modalBg").style.display = "none"; $("#modalBg").onclick = e => { if (e.target.id === "modalBg") $("#modalBg").style.display = "none" };
-    $("#search").oninput = e => { searchTerm = e.target.value; render() }; $("#reset").onclick = () => { searchTerm = ""; filters = { category: "", month: "", quarter: "", status: "" }; $("#search").value = ""; render() };
-    document.querySelectorAll(".nav button").forEach(b => b.onclick = () => { document.querySelectorAll(".nav button").forEach(x => x.classList.remove("active")); b.classList.add("active"); view = b.dataset.view; render() });
-    fetch("data/opportunities.json").then(r => r.json()).then(d => { opportunities = d; render() }).catch(() => { $("#content").innerHTML = '<div class="card">Could not load opportunity data. Make sure the site is opened through GitHub Pages or a local web server.</div>' });
-  </script>
-</body>
 
+  <!-- =========================================================
+       MOBILE HEADER
+  ========================================================= -->
+
+  <header class="mobile-header">
+
+    <div class="mobile-header-left">
+
+      <button
+        class="mobile-menu-button"
+        id="openMobileMenu"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+      <div>
+        <div class="mobile-logo">SYNC</div>
+        <div class="mobile-subtitle">
+          Internship Tracker
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mobile-header-right">
+
+      <button class="mobile-icon">
+        ♧
+      </button>
+
+      <div class="mobile-avatar">
+        DS
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================================================
+       MOBILE SIDE MENU
+  ========================================================= -->
+
+  <div
+    class="mobile-menu-overlay"
+    id="mobileMenuOverlay"
+  >
+
+    <aside class="mobile-menu">
+
+      <div class="mobile-menu-brand">
+
+        <div class="brand-logo">
+          S
+        </div>
+
+        <div>
+          <div class="brand-name">
+            SYNC
+          </div>
+
+          <div class="brand-subtitle">
+            Internship Tracker
+          </div>
+        </div>
+
+      </div>
+
+
+      <nav class="mobile-menu-nav">
+
+        <button data-view="dashboard">
+          🏠 &nbsp; Dashboard
+        </button>
+
+        <button data-view="all">
+          ▦ &nbsp; All Opportunities
+        </button>
+
+        <button data-view="upcoming">
+          ◷ &nbsp; Upcoming
+        </button>
+
+        <button data-view="bookmarked">
+          ☆ &nbsp; Bookmarked
+        </button>
+
+        <button data-view="applied">
+          ✓ &nbsp; Applied
+        </button>
+
+        <button data-view="calendar">
+          ▣ &nbsp; Calendar
+        </button>
+
+        <button data-view="settings">
+          ⚙ &nbsp; Settings
+        </button>
+
+      </nav>
+
+    </aside>
+
+  </div>
+
+
+  <!-- =========================================================
+       MOBILE FILTER DRAWER
+  ========================================================= -->
+
+  <div
+    class="filter-drawer-overlay"
+    id="filterDrawerOverlay"
+  >
+
+    <div class="filter-drawer">
+
+      <div class="filter-drawer-header">
+
+        <h2>
+          Filters
+        </h2>
+
+        <button
+          class="drawer-close"
+          id="closeFilterDrawer"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="drawer-field">
+
+        <label>
+          Category
+        </label>
+
+        <select id="mobileCategory">
+          <option value="">
+            All Categories
+          </option>
+        </select>
+
+      </div>
+
+
+      <div class="drawer-field">
+
+        <label>
+          Month
+        </label>
+
+        <select id="mobileMonth">
+          <option value="">
+            All Months
+          </option>
+        </select>
+
+      </div>
+
+
+      <div class="drawer-field">
+
+        <label>
+          Quarter
+        </label>
+
+        <select id="mobileQuarter">
+          <option value="">
+            All Quarters
+          </option>
+        </select>
+
+      </div>
+
+
+      <div class="drawer-field">
+
+        <label>
+          Personal Status
+        </label>
+
+        <select id="mobileStatus">
+
+          <option value="">
+            All Status
+          </option>
+
+          <option value="Not Applied">
+            Not Applied
+          </option>
+
+          <option value="Interested">
+            Interested
+          </option>
+
+          <option value="Applied">
+            Applied
+          </option>
+
+          <option value="Interview">
+            Interview
+          </option>
+
+          <option value="Selected">
+            Selected
+          </option>
+
+          <option value="Rejected">
+            Rejected
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="drawer-actions">
+
+        <button
+          class="btn btn-blue"
+          id="applyMobileFilters"
+        >
+          Apply Filters
+        </button>
+
+        <button
+          class="btn"
+          id="clearMobileFilters"
+        >
+          Clear Filters
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       APP
+  ========================================================= -->
+
+  <div class="app">
+
+
+    <!-- =======================================================
+         DESKTOP SIDEBAR
+    ======================================================= -->
+
+    <aside class="sidebar">
+
+      <div class="brand">
+
+        <div class="brand-logo">
+          S
+        </div>
+
+        <div>
+
+          <div class="brand-name">
+            SYNC
+          </div>
+
+          <div class="brand-subtitle">
+            Internship Tracker
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <nav class="desktop-nav">
+
+        <button
+          class="active"
+          data-view="dashboard"
+        >
+          🏠
+          <span>
+            Dashboard
+          </span>
+        </button>
+
+        <button data-view="all">
+          🔎
+          <span>
+            Opportunities
+          </span>
+        </button>
+
+        <button data-view="upcoming">
+          ◷
+          <span>
+            Upcoming
+          </span>
+        </button>
+
+        <button data-view="bookmarked">
+          ☆
+          <span>
+            Bookmarks
+          </span>
+        </button>
+
+        <button data-view="applied">
+          ✓
+          <span>
+            My Applications
+          </span>
+        </button>
+
+        <button data-view="calendar">
+          ▣
+          <span>
+            Calendar
+          </span>
+        </button>
+
+        <button data-view="settings">
+          ⚙
+          <span>
+            Settings
+          </span>
+        </button>
+
+      </nav>
+
+
+      <div class="side-footer">
+
+        <strong>
+          SYNC v1.0
+        </strong>
+
+        Static • GitHub Pages Ready
+
+      </div>
+
+    </aside>
+
+
+    <!-- =======================================================
+         MAIN
+    ======================================================= -->
+
+    <main>
+
+
+      <!-- =====================================================
+           TOP HEADER
+      ===================================================== -->
+
+      <header class="top-header">
+
+        <div class="page-title">
+
+          <h1 id="pageTitle">
+            Internship Dashboard
+          </h1>
+
+          <p id="pageSubtitle">
+            Your daily command center for opportunity hunting.
+          </p>
+
+        </div>
+
+
+        <div class="desktop-search-area">
+
+          <input
+            type="search"
+            id="searchInput"
+            class="search-input"
+            placeholder="Search company or opportunity..."
+          />
+
+          <button
+            class="btn"
+            id="resetButton"
+          >
+            Reset
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <!-- =====================================================
+           MOBILE SEARCH
+      ===================================================== -->
+
+      <div
+        class="mobile-search-container"
+        style="margin-bottom:15px;"
+      >
+
+        <input
+          type="search"
+          id="mobileSearchInput"
+          class="search-input"
+          style="width:100%;"
+          placeholder="Search opportunities..."
+        />
+
+      </div>
+
+
+      <!-- =====================================================
+           STATS
+      ===================================================== -->
+
+      <section
+        class="stats-grid"
+        id="statsContainer"
+      >
+      </section>
+
+
+      <!-- =====================================================
+           TODAY'S FOCUS
+      ===================================================== -->
+
+      <section class="focus-section">
+
+        <div class="focus-header">
+
+          <div>
+
+            <h2>
+              🎯 Today's Focus
+            </h2>
+
+            <p id="focusDescription">
+              Opportunities that deserve your attention.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="focus-items"
+          id="focusItems"
+        >
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           OPPORTUNITIES
+      ===================================================== -->
+
+      <section>
+
+        <div class="section-header">
+
+          <h2 id="sectionTitle">
+            Opportunity Monitor
+          </h2>
+
+
+          <!-- DESKTOP FILTERS -->
+
+          <div
+            class="filters desktop-filter"
+            id="desktopFilters"
+          >
+
+          </div>
+
+
+          <!-- MOBILE FILTER BUTTON -->
+
+          <button
+            class="mobile-filter-button"
+            id="openFilterDrawer"
+          >
+
+            <span>
+              ⚙ Filters
+            </span>
+
+            <span>
+              →
+            </span>
+
+          </button>
+
+        </div>
+
+
+        <!-- DESKTOP TABLE -->
+
+        <div
+          class="table-wrapper"
+          id="desktopTable"
+        >
+        </div>
+
+
+        <!-- MOBILE CARDS -->
+
+        <div
+          class="mobile-opportunities"
+          id="mobileCards"
+        >
+        </div>
+
+      </section>
+
+
+    </main>
+
+  </div>
+
+
+  <!-- =========================================================
+       MOBILE BOTTOM NAV
+  ========================================================= -->
+
+  <nav class="mobile-bottom-nav">
+
+    <button
+      class="active"
+      data-view="dashboard"
+    >
+
+      <span>
+        ⌂
+      </span>
+
+      Home
+
+    </button>
+
+
+    <button data-view="all">
+
+      <span>
+        ⌕
+      </span>
+
+      Search
+
+    </button>
+
+
+    <button data-view="bookmarked">
+
+      <span>
+        ♡
+      </span>
+
+      Bookmarks
+
+    </button>
+
+
+    <button data-view="applied">
+
+      <span>
+        ✓
+      </span>
+
+      Applied
+
+    </button>
+
+
+    <button id="bottomMoreButton">
+
+      <span>
+        •••
+      </span>
+
+      More
+
+    </button>
+
+  </nav>
+
+
+  <!-- =========================================================
+       DETAIL MODAL
+  ========================================================= -->
+
+  <div
+    class="modal-overlay"
+    id="modalOverlay"
+  >
+
+    <div class="modal">
+
+      <button
+        class="modal-close"
+        id="modalClose"
+      >
+        ×
+      </button>
+
+      <div id="modalContent">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================= -->
+
+  <script>
+
+    /* =========================================================
+       GLOBAL STATE
+    ========================================================= */
+
+    let opportunities = [];
+
+    let currentView = "dashboard";
+
+    let searchTerm = "";
+
+    let filters = {
+      category: "",
+      month: "",
+      quarter: "",
+      status: ""
+    };
+
+
+    const STORAGE_KEY =
+      "sync_internship_tracker_v1";
+
+
+    let state =
+      JSON.parse(
+        localStorage.getItem(STORAGE_KEY)
+      ) || {
+        bookmarks: [],
+        statuses: {}
+      };
+
+
+    /* =========================================================
+       HELPERS
+    ========================================================= */
+
+    const $ = (selector) =>
+      document.querySelector(selector);
+
+
+    function escapeHTML(value) {
+
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    function saveState() {
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(state)
+      );
+
+    }
+
+
+    function isBookmarked(id) {
+
+      return state.bookmarks.includes(id);
+
+    }
+
+
+    function getPersonalStatus(id) {
+
+      return (
+        state.statuses[id] ||
+        "Not Applied"
+      );
+
+    }
+
+
+    function getInitial(company) {
+
+      return company
+        ? company.charAt(0).toUpperCase()
+        : "?";
+
+    }
+
+
+    /* =========================================================
+       FILTER DATA
+    ========================================================= */
+
+    function getFilteredOpportunities() {
+
+      let result =
+        opportunities.filter((item) => {
+
+          const query =
+            searchTerm.toLowerCase();
+
+          const matchesSearch =
+            !query ||
+            item.company
+              .toLowerCase()
+              .includes(query) ||
+            item.name
+              .toLowerCase()
+              .includes(query);
+
+
+          const matchesCategory =
+            !filters.category ||
+            item.category === filters.category;
+
+
+          const matchesMonth =
+            !filters.month ||
+            item.tentativeMonth === filters.month;
+
+
+          const matchesQuarter =
+            !filters.quarter ||
+            item.quarter === filters.quarter;
+
+
+          const matchesStatus =
+            !filters.status ||
+            getPersonalStatus(item.id) ===
+              filters.status;
+
+
+          return (
+            matchesSearch &&
+            matchesCategory &&
+            matchesMonth &&
+            matchesQuarter &&
+            matchesStatus
+          );
+
+        });
+
+
+      if (currentView === "bookmarked") {
+
+        result =
+          result.filter(
+            item =>
+              isBookmarked(item.id)
+          );
+
+      }
+
+
+      if (currentView === "applied") {
+
+        result =
+          result.filter(
+            item =>
+              getPersonalStatus(item.id) !==
+              "Not Applied"
+          );
+
+      }
+
+
+      if (currentView === "upcoming") {
+
+        result =
+          result.filter(
+            item =>
+              item.tentativeMonth !==
+              "Year Round"
+          );
+
+      }
+
+
+      return result;
+
+    }
+
+
+    /* =========================================================
+       PAGE TITLES
+    ========================================================= */
+
+    function updatePageInformation() {
+
+      const pages = {
+
+        dashboard: [
+          "Internship Dashboard",
+          "Your daily command center for opportunity hunting."
+        ],
+
+        all: [
+          "All Opportunities",
+          "Browse and filter every tracked opportunity."
+        ],
+
+        upcoming: [
+          "Upcoming Opportunities",
+          "Plan your internship hunting around tentative periods."
+        ],
+
+        bookmarked: [
+          "Bookmarked",
+          "Your saved opportunities for focused review."
+        ],
+
+        applied: [
+          "My Applications",
+          "Track your personal application pipeline."
+        ],
+
+        calendar: [
+          "Calendar",
+          "Opportunity timing based on the source data."
+        ],
+
+        settings: [
+          "Settings",
+          "Manage your local SYNC tracking data."
+        ]
+
+      };
+
+
+      const info =
+        pages[currentView];
+
+
+      $("#pageTitle").textContent =
+        info[0];
+
+      $("#pageSubtitle").textContent =
+        info[1];
+
+    }
+
+
+    /* =========================================================
+       STATS
+    ========================================================= */
+
+    function renderStats() {
+
+      const total =
+        opportunities.length;
+
+
+      const upcoming =
+        opportunities.filter(
+          item =>
+            item.tentativeMonth !==
+            "Year Round"
+        ).length;
+
+
+      const applied =
+        opportunities.filter(
+          item =>
+            getPersonalStatus(item.id) !==
+            "Not Applied"
+        ).length;
+
+
+      const bookmarked =
+        opportunities.filter(
+          item =>
+            isBookmarked(item.id)
+        ).length;
+
+
+      const cards = [
+
+        {
+          label: "Total Opportunities",
+          number: total,
+          description: "Tracked opportunities"
+        },
+
+        {
+          label: "Upcoming",
+          number: upcoming,
+          description: "Month-based opportunities"
+        },
+
+        {
+          label: "Applied",
+          number: applied,
+          description: "Your application tracking"
+        },
+
+        {
+          label: "Bookmarked",
+          number: bookmarked,
+          description: "Saved for later"
+        }
+
+      ];
+
+
+      $("#statsContainer").innerHTML =
+        cards.map(card => `
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              ${card.label}
+            </div>
+
+            <div class="stat-number">
+              ${card.number}
+            </div>
+
+            <div class="stat-description">
+              ${card.description}
+            </div>
+
+          </div>
+
+        `).join("");
+
+    }
+
+
+    /* =========================================================
+       TODAY'S FOCUS
+    ========================================================= */
+
+    function renderFocus() {
+
+      const focus =
+        opportunities
+          .filter(
+            item =>
+              item.tentativeMonth !==
+              "Year Round"
+          )
+          .slice(0, 3);
+
+
+      $("#focusDescription").textContent =
+        `${focus.length} opportunities to keep on your radar.`;
+
+
+      $("#focusItems").innerHTML =
+        focus.map(item => `
+
+          <div
+            class="focus-item"
+            data-focus-id="${item.id}"
+          >
+
+            <div class="focus-item-company">
+              ${escapeHTML(item.company)}
+            </div>
+
+            <div class="focus-item-name">
+              ${escapeHTML(item.name)}
+            </div>
+
+            <div class="focus-item-meta">
+              ${escapeHTML(item.tentativeMonth)}
+              •
+              ${escapeHTML(item.quarter)}
+            </div>
+
+          </div>
+
+        `).join("");
+
+    }
+
+
+    /* =========================================================
+       FILTER OPTIONS
+    ========================================================= */
+
+    function uniqueValues(field) {
+
+      return [
+        ...new Set(
+          opportunities.map(
+            item => item[field]
+          )
+        )
+      ].sort();
+
+    }
+
+
+    function createOptionHTML(
+      values,
+      placeholder
+    ) {
+
+      return `
+
+        <option value="">
+          ${placeholder}
+        </option>
+
+        ${values.map(
+          value => `
+
+            <option value="${escapeHTML(value)}">
+              ${escapeHTML(value)}
+            </option>
+
+          `
+        ).join("")}
+
+      `;
+
+    }
+
+
+    function renderDesktopFilters() {
+
+      const categories =
+        uniqueValues("category");
+
+      const months =
+        uniqueValues("tentativeMonth");
+
+      const quarters =
+        uniqueValues("quarter");
+
+
+      $("#desktopFilters").innerHTML = `
+
+        <select
+          class="filter-select"
+          id="desktopCategory"
+        >
+
+          ${createOptionHTML(
+            categories,
+            "All Categories"
+          )}
+
+        </select>
+
+
+        <select
+          class="filter-select"
+          id="desktopMonth"
+        >
+
+          ${createOptionHTML(
+            months,
+            "All Months"
+          )}
+
+        </select>
+
+
+        <select
+          class="filter-select"
+          id="desktopQuarter"
+        >
+
+          ${createOptionHTML(
+            quarters,
+            "All Quarters"
+          )}
+
+        </select>
+
+
+        <select
+          class="filter-select"
+          id="desktopStatus"
+        >
+
+          <option value="">
+            All Status
+          </option>
+
+          <option>
+            Not Applied
+          </option>
+
+          <option>
+            Interested
+          </option>
+
+          <option>
+            Applied
+          </option>
+
+          <option>
+            Interview
+          </option>
+
+          <option>
+            Selected
+          </option>
+
+          <option>
+            Rejected
+          </option>
+
+        </select>
+
+      `;
+
+
+      $("#desktopCategory").value =
+        filters.category;
+
+      $("#desktopMonth").value =
+        filters.month;
+
+      $("#desktopQuarter").value =
+        filters.quarter;
+
+      $("#desktopStatus").value =
+        filters.status;
+
+
+      $("#desktopCategory").onchange =
+        event => {
+
+          filters.category =
+            event.target.value;
+
+          render();
+
+        };
+
+
+      $("#desktopMonth").onchange =
+        event => {
+
+          filters.month =
+            event.target.value;
+
+          render();
+
+        };
+
+
+      $("#desktopQuarter").onchange =
+        event => {
+
+          filters.quarter =
+            event.target.value;
+
+          render();
+
+        };
+
+
+      $("#desktopStatus").onchange =
+        event => {
+
+          filters.status =
+            event.target.value;
+
+          render();
+
+        };
+
+    }
+
+
+    /* =========================================================
+       MOBILE FILTER OPTIONS
+    ========================================================= */
+
+    function renderMobileFilters() {
+
+      const categories =
+        uniqueValues("category");
+
+      const months =
+        uniqueValues("tentativeMonth");
+
+      const quarters =
+        uniqueValues("quarter");
+
+
+      $("#mobileCategory").innerHTML =
+        createOptionHTML(
+          categories,
+          "All Categories"
+        );
+
+
+      $("#mobileMonth").innerHTML =
+        createOptionHTML(
+          months,
+          "All Months"
+        );
+
+
+      $("#mobileQuarter").innerHTML =
+        createOptionHTML(
+          quarters,
+          "All Quarters"
+        );
+
+
+      $("#mobileCategory").value =
+        filters.category;
+
+      $("#mobileMonth").value =
+        filters.month;
+
+      $("#mobileQuarter").value =
+        filters.quarter;
+
+      $("#mobileStatus").value =
+        filters.status;
+
+    }
+
+
+    /* =========================================================
+       CATEGORY BADGE
+    ========================================================= */
+
+    function categoryBadge(category) {
+
+      let className = "";
+
+      if (category === "Internship") {
+        className = "badge-green";
+      }
+
+      if (category === "Hackathon") {
+        className = "badge-purple";
+      }
+
+      if (category === "Research") {
+        className = "badge-yellow";
+      }
+
+
+      return `
+        <span class="badge ${className}">
+          ${escapeHTML(category)}
+        </span>
+      `;
+
+    }
+
+
+    /* =========================================================
+       DESKTOP TABLE
+    ========================================================= */
+
+    function renderDesktopTable(items) {
+
+      if (!items.length) {
+
+        $("#desktopTable").innerHTML = `
+
+          <div class="empty-state">
+            No opportunities match the current filters.
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      $("#desktopTable").innerHTML = `
+
+        <table class="opportunity-table">
+
+          <thead>
+
+            <tr>
+
+              <th>
+                COMPANY / OPPORTUNITY
+              </th>
+
+              <th>
+                CATEGORY
+              </th>
+
+              <th>
+                TENTATIVE
+              </th>
+
+              <th>
+                QUARTER
+              </th>
+
+              <th>
+                MY STATUS
+              </th>
+
+              <th>
+                ★
+              </th>
+
+              <th>
+                ACTION
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody>
+
+            ${items.map(item => `
+
+              <tr>
+
+                <td>
+
+                  <div class="company-name">
+                    ${escapeHTML(item.company)}
+                  </div>
+
+                  <div class="opportunity-name">
+                    ${escapeHTML(item.name)}
+                  </div>
+
+                </td>
+
+
+                <td>
+                  ${categoryBadge(item.category)}
+                </td>
+
+
+                <td>
+                  ${escapeHTML(item.tentativeMonth)}
+                </td>
+
+
+                <td>
+                  ${escapeHTML(item.quarter)}
+                </td>
+
+
+                <td>
+
+                  <span
+                    class="badge ${
+                      getPersonalStatus(item.id) ===
+                      "Applied"
+                        ? "badge-green"
+                        : ""
+                    }"
+                  >
+                    ${getPersonalStatus(item.id)}
+                  </span>
+
+                </td>
+
+
+                <td>
+
+                  <button
+                    class="
+                      bookmark-button
+                      ${
+                        isBookmarked(item.id)
+                          ? "active"
+                          : ""
+                      }
+                    "
+                    data-bookmark="${item.id}"
+                  >
+                    ★
+                  </button>
+
+                </td>
+
+
+                <td>
+
+                  <button
+                    class="btn"
+                    data-open="${item.id}"
+                  >
+                    View Details
+                  </button>
+
+                </td>
+
+              </tr>
+
+            `).join("")}
+
+          </tbody>
+
+        </table>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       MOBILE CARDS
+    ========================================================= */
+
+    function renderMobileCards(items) {
+
+      if (!items.length) {
+
+        $("#mobileCards").innerHTML = `
+
+          <div class="empty-state">
+            No opportunities found.
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      $("#mobileCards").innerHTML =
+        items.map(item => `
+
+          <article
+            class="mobile-opportunity-card"
+          >
+
+            <div class="mobile-card-top">
+
+              <div class="mobile-company-row">
+
+                <div class="company-logo-placeholder">
+
+                  ${getInitial(item.company)}
+
+                </div>
+
+
+                <div>
+
+                  <div class="mobile-company">
+                    ${escapeHTML(item.company)}
+                  </div>
+
+                  <div class="mobile-opportunity-name">
+                    ${escapeHTML(item.name)}
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <button
+                class="
+                  bookmark-button
+                  ${
+                    isBookmarked(item.id)
+                      ? "active"
+                      : ""
+                  }
+                "
+                data-bookmark="${item.id}"
+              >
+                ${
+                  isBookmarked(item.id)
+                    ? "★"
+                    : "☆"
+                }
+              </button>
+
+            </div>
+
+
+            <div class="mobile-category">
+
+              ${categoryBadge(
+                item.category
+              )}
+
+            </div>
+
+
+            <div class="mobile-meta">
+
+              <span>
+                ◷ ${escapeHTML(
+                  item.tentativeMonth
+                )}
+              </span>
+
+              <span>
+                •
+              </span>
+
+              <span>
+                ${escapeHTML(
+                  item.quarter
+                )}
+              </span>
+
+            </div>
+
+
+            <button
+              class="mobile-card-button"
+              data-open="${item.id}"
+            >
+              View Details →
+            </button>
+
+          </article>
+
+        `).join("");
+
+    }
+
+
+    /* =========================================================
+       MODAL
+    ========================================================= */
+
+    function openModal(id) {
+
+      const item =
+        opportunities.find(
+          opportunity =>
+            opportunity.id === id
+        );
+
+
+      if (!item) {
+        return;
+      }
+
+
+      $("#modalContent").innerHTML = `
+
+        ${categoryBadge(item.category)}
+
+
+        <h2>
+          ${escapeHTML(item.name)}
+        </h2>
+
+
+        <div class="modal-company">
+          ${escapeHTML(item.company)}
+        </div>
+
+
+        <div class="modal-meta">
+
+          <div class="modal-meta-item">
+
+            <small>
+              Tentative Month
+            </small>
+
+            <strong>
+              ${escapeHTML(
+                item.tentativeMonth
+              )}
+            </strong>
+
+          </div>
+
+
+          <div class="modal-meta-item">
+
+            <small>
+              Quarter
+            </small>
+
+            <strong>
+              ${escapeHTML(
+                item.quarter
+              )}
+            </strong>
+
+          </div>
+
+
+          <div class="modal-meta-item">
+
+            <small>
+              Personal Status
+            </small>
+
+            <strong>
+              ${getPersonalStatus(item.id)}
+            </strong>
+
+          </div>
+
+
+          <div class="modal-meta-item">
+
+            <small>
+              Opportunity Link
+            </small>
+
+            <strong>
+              ${
+                item.sourceLink
+                  ? "Available"
+                  : "Not Available"
+              }
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <label class="modal-status-label">
+          PERSONAL STATUS
+        </label>
+
+
+        <select
+          class="modal-status"
+          id="modalStatus"
+        >
+
+          ${[
+            "Not Applied",
+            "Interested",
+            "Applied",
+            "Interview",
+            "Selected",
+            "Rejected"
+          ].map(status => `
+
+            <option
+              ${
+                getPersonalStatus(item.id) ===
+                status
+                  ? "selected"
+                  : ""
+              }
+            >
+              ${status}
+            </option>
+
+          `).join("")}
+
+        </select>
+
+
+        <div class="modal-actions">
+
+          <button
+            class="btn"
+            id="modalBookmark"
+          >
+            ${
+              isBookmarked(item.id)
+                ? "Remove Bookmark"
+                : "Bookmark"
+            }
+          </button>
+
+
+          ${
+            item.sourceLink
+              ? `
+                <a
+                  class="btn btn-primary"
+                  href="${escapeHTML(
+                    item.sourceLink
+                  )}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Visit Opportunity ↗
+                </a>
+              `
+              : `
+                <button
+                  class="btn"
+                  disabled
+                >
+                  Link Not Available
+                </button>
+              `
+          }
+
+
+          ${
+            (item.additionalLinks || [])
+              .map(
+                (link, index) => `
+
+                  <a
+                    class="btn"
+                    href="${escapeHTML(link)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Additional Link ${
+                      index + 1
+                    } ↗
+                  </a>
+
+                `
+              )
+              .join("")
+          }
+
+        </div>
+
+      `;
+
+
+      $("#modalOverlay")
+        .classList.add("show");
+
+
+      $("#modalStatus").onchange =
+        event => {
+
+          state.statuses[item.id] =
+            event.target.value;
+
+          saveState();
+
+          render();
+
+          openModal(item.id);
+
+        };
+
+
+      $("#modalBookmark").onclick =
+        () => {
+
+          toggleBookmark(item.id);
+
+          render();
+
+          openModal(item.id);
+
+        };
+
+    }
+
+
+    function closeModal() {
+
+      $("#modalOverlay")
+        .classList.remove("show");
+
+    }
+
+
+    /* =========================================================
+       BOOKMARK
+    ========================================================= */
+
+    function toggleBookmark(id) {
+
+      if (isBookmarked(id)) {
+
+        state.bookmarks =
+          state.bookmarks.filter(
+            bookmarkId =>
+              bookmarkId !== id
+          );
+
+      } else {
+
+        state.bookmarks.push(id);
+
+      }
+
+
+      saveState();
+
+    }
+
+
+    /* =========================================================
+       RENDER
+    ========================================================= */
+
+    function render() {
+
+      updatePageInformation();
+
+      renderStats();
+
+      renderFocus();
+
+      renderDesktopFilters();
+
+      renderMobileFilters();
+
+
+      const items =
+        getFilteredOpportunities();
+
+
+      renderDesktopTable(items);
+
+      renderMobileCards(items);
+
+
+      bindDynamicButtons();
+
+    }
+
+
+    /* =========================================================
+       DYNAMIC BUTTON EVENTS
+    ========================================================= */
+
+    function bindDynamicButtons() {
+
+      document
+        .querySelectorAll(
+          "[data-bookmark]"
+        )
+        .forEach(button => {
+
+          button.onclick = () => {
+
+            const id =
+              Number(
+                button.dataset.bookmark
+              );
+
+            toggleBookmark(id);
+
+            render();
+
+          };
+
+        });
+
+
+      document
+        .querySelectorAll(
+          "[data-open]"
+        )
+        .forEach(button => {
+
+          button.onclick = () => {
+
+            const id =
+              Number(
+                button.dataset.open
+              );
+
+            openModal(id);
+
+          };
+
+        });
+
+
+      document
+        .querySelectorAll(
+          "[data-focus-id]"
+        )
+        .forEach(element => {
+
+          element.onclick = () => {
+
+            const id =
+              Number(
+                element.dataset.focusId
+              );
+
+            openModal(id);
+
+          };
+
+        });
+
+    }
+
+
+    /* =========================================================
+       NAVIGATION
+    ========================================================= */
+
+    function changeView(view) {
+
+      currentView = view;
+
+      document
+        .querySelectorAll(
+          "[data-view]"
+        )
+        .forEach(button => {
+
+          button.classList.toggle(
+            "active",
+            button.dataset.view === view
+          );
+
+        });
+
+
+      closeMobileMenu();
+
+      render();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    document
+      .querySelectorAll(
+        "[data-view]"
+      )
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            changeView(
+              button.dataset.view
+            );
+
+          }
+        );
+
+      });
+
+
+    /* =========================================================
+       SEARCH
+    ========================================================= */
+
+    function handleSearch(value) {
+
+      searchTerm =
+        value.trim();
+
+      const desktopSearch =
+        $("#searchInput");
+
+      const mobileSearch =
+        $("#mobileSearchInput");
+
+
+      if (
+        document.activeElement !==
+        desktopSearch
+      ) {
+        desktopSearch.value =
+          searchTerm;
+      }
+
+
+      if (
+        document.activeElement !==
+        mobileSearch
+      ) {
+        mobileSearch.value =
+          searchTerm;
+      }
+
+
+      render();
+
+    }
+
+
+    $("#searchInput")
+      .addEventListener(
+        "input",
+        event => {
+
+          handleSearch(
+            event.target.value
+          );
+
+        }
+      );
+
+
+    $("#mobileSearchInput")
+      .addEventListener(
+        "input",
+        event => {
+
+          handleSearch(
+            event.target.value
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
+    $("#resetButton")
+      .addEventListener(
+        "click",
+        () => {
+
+          searchTerm = "";
+
+          filters = {
+            category: "",
+            month: "",
+            quarter: "",
+            status: ""
+          };
+
+
+          $("#searchInput").value =
+            "";
+
+          $("#mobileSearchInput").value =
+            "";
+
+
+          render();
+
+        }
+      );
+
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    function openMobileMenu() {
+
+      $("#mobileMenuOverlay")
+        .classList.add("show");
+
+    }
+
+
+    function closeMobileMenu() {
+
+      $("#mobileMenuOverlay")
+        .classList.remove("show");
+
+    }
+
+
+    $("#openMobileMenu")
+      .addEventListener(
+        "click",
+        openMobileMenu
+      );
+
+
+    $("#mobileMenuOverlay")
+      .addEventListener(
+        "click",
+        event => {
+
+          if (
+            event.target ===
+            $("#mobileMenuOverlay")
+          ) {
+
+            closeMobileMenu();
+
+          }
+
+        }
+      );
+
+
+    /* =========================================================
+       MOBILE FILTER DRAWER
+    ========================================================= */
+
+    $("#openFilterDrawer")
+      .addEventListener(
+        "click",
+        () => {
+
+          renderMobileFilters();
+
+          $("#filterDrawerOverlay")
+            .classList.add("show");
+
+        }
+      );
+
+
+    $("#closeFilterDrawer")
+      .addEventListener(
+        "click",
+        () => {
+
+          $("#filterDrawerOverlay")
+            .classList.remove("show");
+
+        }
+      );
+
+
+    $("#filterDrawerOverlay")
+      .addEventListener(
+        "click",
+        event => {
+
+          if (
+            event.target ===
+            $("#filterDrawerOverlay")
+          ) {
+
+            $("#filterDrawerOverlay")
+              .classList.remove("show");
+
+          }
+
+        }
+      );
+
+
+    /* =========================================================
+       APPLY MOBILE FILTERS
+    ========================================================= */
+
+    $("#applyMobileFilters")
+      .addEventListener(
+        "click",
+        () => {
+
+          filters.category =
+            $("#mobileCategory").value;
+
+          filters.month =
+            $("#mobileMonth").value;
+
+          filters.quarter =
+            $("#mobileQuarter").value;
+
+          filters.status =
+            $("#mobileStatus").value;
+
+
+          $("#filterDrawerOverlay")
+            .classList.remove("show");
+
+
+          render();
+
+        }
+      );
+
+
+    /* =========================================================
+       CLEAR MOBILE FILTERS
+    ========================================================= */
+
+    $("#clearMobileFilters")
+      .addEventListener(
+        "click",
+        () => {
+
+          filters = {
+            category: "",
+            month: "",
+            quarter: "",
+            status: ""
+          };
+
+
+          renderMobileFilters();
+
+          render();
+
+        }
+      );
+
+
+    /* =========================================================
+       MODAL EVENTS
+    ========================================================= */
+
+    $("#modalClose")
+      .addEventListener(
+        "click",
+        closeModal
+      );
+
+
+    $("#modalOverlay")
+      .addEventListener(
+        "click",
+        event => {
+
+          if (
+            event.target ===
+            $("#modalOverlay")
+          ) {
+
+            closeModal();
+
+          }
+
+        }
+      );
+
+
+    /* =========================================================
+       MORE BUTTON
+    ========================================================= */
+
+    $("#bottomMoreButton")
+      .addEventListener(
+        "click",
+        openMobileMenu
+      );
+
+
+    /* =========================================================
+       ESC KEY
+    ========================================================= */
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closeModal();
+
+          closeMobileMenu();
+
+          $("#filterDrawerOverlay")
+            .classList.remove("show");
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       LOAD DATA
+    ========================================================= */
+
+    fetch(
+      "data/opportunities.json"
+    )
+      .then(response => {
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Could not load opportunities.json"
+          );
+
+        }
+
+        return response.json();
+
+      })
+      .then(data => {
+
+        opportunities = data;
+
+        render();
+
+      })
+      .catch(error => {
+
+        console.error(error);
+
+        $("#desktopTable").innerHTML = `
+
+          <div class="empty-state">
+
+            Could not load opportunity data.
+
+            <br><br>
+
+            Make sure
+            <strong>
+              data/opportunities.json
+            </strong>
+            exists.
+
+          </div>
+
+        `;
+
+        $("#mobileCards").innerHTML = `
+
+          <div class="empty-state">
+
+            Could not load opportunity data.
+
+          </div>
+
+        `;
+
+      });
+
+  </script>
+
+</body>
 </html>
